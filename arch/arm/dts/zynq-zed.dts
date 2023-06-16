@@ -12,7 +12,7 @@
 
 	aliases {
 		ethernet0 = &gem0;
-		serial0 = &uart1;
+		serial0 = &uart0;
 		spi0 = &qspi;
 		mmc0 = &sdhci0;
 	};
@@ -23,8 +23,8 @@
 	};
 
 	chosen {
-		bootargs = "";
-		stdout-path = "serial0:115200n8";
+		bootargs = "console=ttyPS0,115200n8 earlycon earlyprintk debug loglevel=8";
+       stdout-path = "&uart0:115200n8";
 	};
 
 	usb_phy0: phy0@e0002000 {
@@ -42,13 +42,9 @@
 
 &gem0 {
 	status = "okay";
-	phy-mode = "rgmii-id";
-	phy-handle = <&ethernet_phy>;
-
-	ethernet_phy: ethernet-phy@0 {
-		reg = <0>;
-		device_type = "ethernet-phy";
-	};
+	local-mac-address = [00 05 A6 00 06 00];
+	phy-handle = <&ethernet_phy4>;
+	/delete-property/ phy-mode;
 };
 
 &qspi {
@@ -93,8 +89,8 @@
 	status = "okay";
 };
 
-&uart1 {
-	u-boot,dm-pre-reloc;
+&uart0 {
+	//u-boot,dm-pre-reloc;
 	status = "okay";
 };
 
